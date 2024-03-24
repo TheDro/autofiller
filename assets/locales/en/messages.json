@@ -1,0 +1,11 @@
+{
+    "appName": {
+        "message": "autofiller"
+    },
+    "appShortName": {
+        "message": "autofiller"
+    },
+    "appDescription": {
+        "message": "Autofills forms and adds autocompletion to documents."
+    }
+}
