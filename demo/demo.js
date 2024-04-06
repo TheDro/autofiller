@@ -1,5 +1,14 @@
 console.log('hello2')
 
+
+let completions = [
+    "this is the way",
+    "my_name@example.com",
+    "https://example.com",
+    "Andy Bernard",
+    "Michael Scott"
+]
+
 // after dom is loaded
 document.addEventListener("DOMContentLoaded", function(event) {
     
@@ -13,10 +22,31 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     // When textArea moves or is resized, update the overlay position
 
-    attachOverlay(textArea, overlay)
+    attachOverlay(textArea, overlay, contentCallback)
+    
+    function contentCallback(e) {
+        let bestMatch = ""
+        if (e.target.value) {
+            completions.forEach(completion => {
+                if (completion.startsWith(e.target.value)) {
+                    bestMatch = completion.slice(e.target.value.length)
+                }
+            })
+        }
+        let bestMapSpan = spanWith(bestMatch)
+        bestMapSpan.classList.add('best-match')
+        overlay.innerText = e.target.value
+        overlay.appendChild(bestMapSpan)
+    }
+
+    function spanWith(text) {
+        let span = document.createElement('span')
+        span.innerText = text
+        return span
+    }
 
 
-    function attachOverlay(textArea, overlay) {
+    function attachOverlay(textArea, overlay, contentCallback) {
 
         matchStyles()
         new ResizeObserver(resizeOverlay).observe(textArea)
@@ -38,6 +68,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             overlay.innerText = e.target.value+"\n"
             setTimeout(() => {
                 overlay.scrollTop = e.target.scrollTop
+                contentCallback(e)
             }, 0)
         }
 
@@ -59,6 +90,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             overlay.style['font-family'] = style.getPropertyValue('font-family')
             overlay.style['overflow-x'] = style.getPropertyValue('overflow-x')
             overlay.style['overflow-y'] = style.getPropertyValue('overflow-y')
+            overlay.style['overflow-wrap'] = style.getPropertyValue('overflow-wrap')
         }
     }
 
