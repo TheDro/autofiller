@@ -1,48 +1,10 @@
 console.log('hello2')
 import {env} from './env.js'
 import {http} from './http.js'
-
-window.getOpenCompletion = getOpenCompletion
-
-async function getOpenCompletion (prompt) {
-    let response = await http.post('https://api.openai.com/v1/chat/completions', {
-        model: 'gpt-3.5-turbo',
-        messages: [
-            {
-                role: 'system',
-                content: 'You are an auto-completion assitant.'
-            },
-            {
-                role: 'user',
-                content: 'Finish this sentence: '
-            },
-            {
-                role: 'user',
-                content: prompt
-            }
-        ],
-        temperature: 1,
-        max_tokens: 256,
-        top_p: 1,
-        frequency_penalty: 0,
-        presence_penalty: 0
-    }, {
-        'Authorization': 'Bearer ' + env.OPENAI_API_KEY
-    })
-    let content = response.choices[0].message.content
-    console.log(content)
-    return content
-}
+import {getStaticCompletion, getOpenCompletion} from './completions.js'
 
 
 
-let completions = [
-    "this is the way",
-    "my_name@example.com",
-    "https://example.com",
-    "Andy Bernard",
-    "Michael Scott"
-]
 
 // after dom is loaded
 document.addEventListener("DOMContentLoaded", function(event) {
@@ -51,27 +13,23 @@ document.addEventListener("DOMContentLoaded", function(event) {
     const overlay = document.createElement('div');
     overlay.id = 'overlay';
 
-    // Append the overlay to the target element's parent
-    const textArea = document.getElementById('description');
-    textArea.parentNode.appendChild(overlay);
+    let textareas = document.querySelectorAll('textarea')
+    textareas.forEach((textarea) => {
+        textarea.addEventListener('focus', (e) => {
+            console.log('focus')
+            attachOverlay(e.target, overlay, contentCallback)
+            contentCallback(e)
+        })
+    })
 
-    // When textArea moves or is resized, update the overlay position
 
-    attachOverlay(textArea, overlay, contentCallback)
     
     function contentCallback(e) {
-        let bestMatch = ""
-        if (e.target.value) {
-            completions.forEach(completion => {
-                if (completion.startsWith(e.target.value)) {
-                    bestMatch = completion.slice(e.target.value.length)
-                }
-            })
-        }
-        let bestMapSpan = spanWith(bestMatch)
-        bestMapSpan.classList.add('best-match')
+        let bestMatch = getStaticCompletion(e)
+        let bestMatchSpan = spanWith(bestMatch)
+        bestMatchSpan.classList.add('best-match')
         overlay.innerText = e.target.value
-        overlay.appendChild(bestMapSpan)
+        overlay.appendChild(bestMatchSpan)
     }
 
     function spanWith(text) {
@@ -82,13 +40,14 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 
     function attachOverlay(textArea, overlay, contentCallback) {
+        console.log({textArea, overlay})
 
+        textArea.parentNode.appendChild(overlay)
         matchStyles()
         new ResizeObserver(resizeOverlay).observe(textArea)
         textArea.addEventListener('input', matchContent)
         textArea.addEventListener('keydown', matchContent)
         textArea.addEventListener('scroll', matchContent)
-
 
 
         function resizeOverlay() {
@@ -107,7 +66,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
             }, 0)
         }
 
-        
 
         function matchStyles() {
             let style = window.getComputedStyle(textArea)
@@ -128,7 +86,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
             overlay.style['overflow-wrap'] = style.getPropertyValue('overflow-wrap')
         }
     }
-
     
 })
 
