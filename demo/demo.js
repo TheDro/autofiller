@@ -1,6 +1,5 @@
 console.log('hello2')
-import {env} from './env.js'
-import {http} from './http.js'
+
 import {getStaticCompletion, getOpenCompletion} from './completions.js'
 import {attachOverlay, detachOverlay} from './attachment.js'
 import _ from 'lodash'
@@ -26,8 +25,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
     })
 
 
-    function applyCompletion(e) {
+    async function applyCompletion(e) {
         let bestMatch = getStaticCompletion(e)
+        if (!bestMatch) {
+            bestMatch = await getOpenCompletion(e.target.value)
+        }
         let bestMatchSpan = spanWith((bestMatch || "")+"\n")
         bestMatchSpan.classList.add('best-match')
         overlay.innerText = e.target.value

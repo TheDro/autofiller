@@ -1,7 +1,12 @@
+import {env} from './env.js'
+import {http} from './http.js'
 
 window.getOpenCompletion = getOpenCompletion
 
 async function getOpenCompletion (prompt) {
+    if (prompt.length < 3) {
+        return null
+    }
     let response = await http.post('https://api.openai.com/v1/chat/completions', {
         model: 'gpt-3.5-turbo',
         messages: [
