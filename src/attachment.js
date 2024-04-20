@@ -24,8 +24,11 @@ function resizeOverlay(entries, overlay) {
     let textArea = entries[0].target
     let position = textArea.getBoundingClientRect();
     let bodyPosition = document.body.getBoundingClientRect();
+    let bodyStyle = window.getComputedStyle(document.body)
+    // TODO: need to properly deal with collapsing margin
+    let bodyMarginTop = parseInt(bodyStyle.getPropertyValue('margin-top') || 0)
     overlay.style.left = position.left + 'px';
-    overlay.style.top = position.top - bodyPosition.top + 'px';
+    overlay.style.top = position.top - bodyPosition.top + bodyMarginTop + 'px';
     overlay.style.width = position.width + 'px';
     overlay.style.height = position.height + 'px';
 }
