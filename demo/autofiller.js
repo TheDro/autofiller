@@ -7,7 +7,9 @@ let autofiller = {
     textareas: null,
     applyCompletion: null,
     enabled: false,
+    lastCompletion: ''
 }
+window.autofiller = autofiller
 
 autofiller.init = () => {
     console.log("autofiller init")
@@ -26,6 +28,13 @@ autofiller.init = () => {
     autofiller.textareas.forEach((textarea) => {
         textarea.addEventListener('focus', autofiller.focusCallback)
         textarea.addEventListener('blur', autofiller.blurCallback)
+        // accept completion when user presses tab
+        textarea.addEventListener('keydown', (e) => {
+            if (e.key === 'Tab' && autofiller.lastCompletion) {
+                e.preventDefault()
+                e.target.value = e.target.value + autofiller.lastCompletion
+            }
+        })
     })
 
     document.addEventListener('keydown', (e) => {
@@ -35,14 +44,19 @@ autofiller.init = () => {
         }
     })
 
+    
+
+
 
     async function applyCompletion(e) {
+        console.log('applyCompletion')
         let bestMatch = getStaticCompletion(e)
         if (!bestMatch && autofiller.enabled) {
             bestMatch = await getOpenCompletion(e.target.value)
         }
+        autofiller.lastCompletion = bestMatch
         let bestMatchSpan = spanWith((bestMatch || "")+"\n")
-        bestMatchSpan.classList.add('best-match')
+        bestMatchSpan.style.color = 'gray'
         autofiller.overlay.innerText = e.target.value
         autofiller.overlay.appendChild(bestMatchSpan)
     }

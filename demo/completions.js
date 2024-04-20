@@ -7,6 +7,8 @@ async function getOpenCompletion (prompt) {
     if (prompt.length < 3) {
         return null
     }
+    prompt = prompt.slice(-1000)
+    let max_tokens = Math.round(256 + prompt.length/3)
     let response = await http.post('https://api.openai.com/v1/chat/completions', {
         model: 'gpt-3.5-turbo',
         messages: [
@@ -16,7 +18,7 @@ async function getOpenCompletion (prompt) {
             },
             {
                 role: 'user',
-                content: 'Finish this sentence: '
+                content: 'Finish this sentence concisely: '
             },
             {
                 role: 'user',
@@ -24,7 +26,7 @@ async function getOpenCompletion (prompt) {
             }
         ],
         temperature: 1,
-        max_tokens: 256,
+        max_tokens: max_tokens,
         top_p: 1,
         frequency_penalty: 0,
         presence_penalty: 0
@@ -32,7 +34,6 @@ async function getOpenCompletion (prompt) {
         'Authorization': 'Bearer ' + env.OPENAI_API_KEY
     })
     let content = response.choices[0].message.content
-    console.log(content)
     return content
 }
 
