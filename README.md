@@ -25,6 +25,7 @@ When you focus on a textarea element, the element should become yellow. In this 
 - A menu to configure the list of static completions
 - Fuzzy search for static completions
 - A menu to configure your OpenAI API key
+- Better support for dark mode
 
 ## How to develop
 
