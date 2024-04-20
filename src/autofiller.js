@@ -4,7 +4,7 @@ import _ from 'lodash'
 
 let autofiller = {
     overlay: null,
-    textareas: null,
+    textareas: [],
     applyCompletion: null,
     enabled: false,
     lastCompletion: ''
@@ -17,7 +17,8 @@ autofiller.init = () => {
     autofiller.overlay.id = 'overlay'
     autofiller.overlay.style['background-color'] = 'rgba(255, 255, 0, 0.1)'
 
-    autofiller.textareas = document.querySelectorAll('textarea')
+    
+
     autofiller.applyCompletion = _.debounce(applyCompletion, 500)
     autofiller.focusCallback = (e) => {
         attachOverlay(e, e.target, autofiller.overlay, autofiller.applyCompletion)
@@ -26,17 +27,8 @@ autofiller.init = () => {
         detachOverlay(e.target, autofiller.overlay)
     }
 
-    autofiller.textareas.forEach((textarea) => {
-        textarea.addEventListener('focus', autofiller.focusCallback)
-        textarea.addEventListener('blur', autofiller.blurCallback)
-        // accept completion when user presses tab
-        textarea.addEventListener('keydown', (e) => {
-            if (e.key === 'Tab' && autofiller.lastCompletion) {
-                e.preventDefault()
-                e.target.value = e.target.value + autofiller.lastCompletion
-            }
-        })
-    })
+    setTimeout(collectTextareas, 100)
+    setInterval(collectTextareas, 5000)
 
     document.addEventListener('keydown', (e) => {
         if (e.ctrlKey && e.key === 'q') {
@@ -46,12 +38,26 @@ autofiller.init = () => {
         }
     })
 
-    
-
+    function collectTextareas() {
+        let textareas = document.querySelectorAll('textarea')
+        textareas.forEach((textarea) => {
+            if (autofiller.textareas.indexOf(textarea) === -1) {
+                autofiller.textareas.push(textarea)
+                textarea.addEventListener('focus', autofiller.focusCallback)
+                textarea.addEventListener('blur', autofiller.blurCallback)
+                // accept completion when user presses tab
+                textarea.addEventListener('keydown', (e) => {
+                    if (e.key === 'Tab' && autofiller.lastCompletion) {
+                        e.preventDefault()
+                        e.target.value = e.target.value + autofiller.lastCompletion
+                    }
+                })
+            }
+        })
+    }
 
 
     async function applyCompletion(e) {
-        console.log('applyCompletion')
         let bestMatch = getStaticCompletion(e)
         if (!bestMatch && autofiller.enabled) {
             bestMatch = await getOpenCompletion(e.target.value)

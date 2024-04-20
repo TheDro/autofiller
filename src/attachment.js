@@ -23,8 +23,9 @@ function attachOverlay(e, textArea, overlay, contentCallback) {
 function resizeOverlay(entries, overlay) {
     let textArea = entries[0].target
     let position = textArea.getBoundingClientRect();
+    let bodyPosition = document.body.getBoundingClientRect();
     overlay.style.left = position.left + 'px';
-    overlay.style.top = position.top + 'px';
+    overlay.style.top = position.top - bodyPosition.top + 'px';
     overlay.style.width = position.width + 'px';
     overlay.style.height = position.height + 'px';
 }
@@ -49,12 +50,17 @@ function matchStyles(textArea, overlay) {
     overlay.style['border-bottom-width'] = style.getPropertyValue('border-bottom-width')
     overlay.style['border-left-width'] = style.getPropertyValue('border-left-width')
     overlay.style['border-right-width'] = style.getPropertyValue('border-right-width')
-    overlay.style['font-size'] = style.getPropertyValue('font-size')
-    overlay.style['line-height'] = style.getPropertyValue('line-height')
-    overlay.style['font-family'] = style.getPropertyValue('font-family')
     overlay.style['overflow-x'] = style.getPropertyValue('overflow-x')
     overlay.style['overflow-y'] = style.getPropertyValue('overflow-y')
     overlay.style['overflow-wrap'] = style.getPropertyValue('overflow-wrap')
+
+    overlay.style['font-family'] = style.getPropertyValue('font-family')
+    overlay.style['font-size'] = style.getPropertyValue('font-size')
+    overlay.style['font-stretch'] = style.getPropertyValue('font-stretch')
+    overlay.style['font-style'] = style.getPropertyValue('font-style')
+    overlay.style['font-weight'] = style.getPropertyValue('font-weight')
+    overlay.style['letter-spacing'] = style.getPropertyValue('letter-spacing')
+    overlay.style['line-height'] = style.getPropertyValue('line-height')
     
     overlay.style['box-sizing'] = 'border-box';
     overlay.style['border-style'] = 'solid';
