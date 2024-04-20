@@ -29,6 +29,8 @@ autofiller.init = () => {
 
     setTimeout(collectTextareas, 100)
     setInterval(collectTextareas, 5000)
+    setTimeout(collectInputs, 100)
+    setInterval(collectInputs, 5000)
 
     document.addEventListener('keydown', (e) => {
         if (e.ctrlKey && e.key === 'q') {
@@ -40,6 +42,24 @@ autofiller.init = () => {
 
     function collectTextareas() {
         let textareas = document.querySelectorAll('textarea')
+        textareas.forEach((textarea) => {
+            if (autofiller.textareas.indexOf(textarea) === -1) {
+                autofiller.textareas.push(textarea)
+                textarea.addEventListener('focus', autofiller.focusCallback)
+                textarea.addEventListener('blur', autofiller.blurCallback)
+                // accept completion when user presses tab
+                textarea.addEventListener('keydown', (e) => {
+                    if (e.key === 'Tab' && autofiller.lastCompletion) {
+                        e.preventDefault()
+                        e.target.value = e.target.value + autofiller.lastCompletion
+                    }
+                })
+            }
+        })
+    }
+
+    function collectInputs() {
+        let textareas = document.querySelectorAll('input[type="text"]')
         textareas.forEach((textarea) => {
             if (autofiller.textareas.indexOf(textarea) === -1) {
                 autofiller.textareas.push(textarea)
