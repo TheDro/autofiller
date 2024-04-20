@@ -21,7 +21,7 @@ When you focus on a textarea element, the element should become yellow. In this 
 
 ## Upcoming features
 
-- Support for input tags
+- Improved support for input tags
 - A menu to configure the list of static completions
 - Fuzzy search for static completions
 - A menu to configure your OpenAI API key
