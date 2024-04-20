@@ -12,7 +12,7 @@ let autofiller = {
 window.autofiller = autofiller
 
 autofiller.init = () => {
-    console.log("autofiller init")
+    console.log("autofiller init v2")
     autofiller.overlay = document.createElement('div')
     autofiller.overlay.id = 'overlay'
     autofiller.overlay.style['background-color'] = 'rgba(255, 255, 0, 0.1)'

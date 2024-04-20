@@ -1,5 +1,5 @@
 
-import {autofiller} from '../demo/autofiller.js'
+import {autofiller} from './autofiller.js'
 
 
 autofiller.init()
