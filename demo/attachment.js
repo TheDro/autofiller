@@ -59,7 +59,6 @@ function matchStyles(textArea, overlay) {
     overlay.style['box-sizing'] = 'border-box';
     overlay.style['border-style'] = 'solid';
     overlay.style['border-color'] = 'orange';
-    overlay.style['background-color'] = 'rgba(255, 255, 0, 0.2)';
     overlay.style['pointer-events'] = 'none';
     overlay.style['white-space'] = 'pre-wrap';
     overlay.style['position'] = 'absolute';

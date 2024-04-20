@@ -15,6 +15,7 @@ autofiller.init = () => {
     console.log("autofiller init")
     autofiller.overlay = document.createElement('div')
     autofiller.overlay.id = 'overlay'
+    autofiller.overlay.style['background-color'] = 'rgba(255, 255, 0, 0.1)'
 
     autofiller.textareas = document.querySelectorAll('textarea')
     autofiller.applyCompletion = _.debounce(applyCompletion, 500)
@@ -40,6 +41,7 @@ autofiller.init = () => {
     document.addEventListener('keydown', (e) => {
         if (e.ctrlKey && e.key === 'q') {
             autofiller.enabled = !autofiller.enabled
+            autofiller.overlay.style['background-color'] = autofiller.enabled ? 'rgba(0, 255, 0, 0.1)' : 'rgba(255, 255, 0, 0.1)'
             console.log("autofiller enabled:", autofiller.enabled)
         }
     })
