@@ -1,39 +1,32 @@
-# autofiller
+# Autofiller ✨
 
-Autofills forms and adds autocompletion to documents.
+Adds auto-completion to the web.
 
-## Development 
+## How to install
 
-This extension was created with [Extension CLI](https://oss.mobilefirst.me/extension-cli/)!
+- Clone the project with `git clone https://github.com/TheDro/autofiller.git`
+- In the terminal, run `npm install`
+- Copy the contents of `.env.template.js` into `.env.js`
+- Fill in your OpenAI API key
+- Run `npm run build`
+- In chrome, go to manage extensions.
+- Enable developer mode.
+- Click on "Load unpacked"
+- Select the project's `dist` folder
+- Enable the Autofiller extension
 
-If you find this software helpful [star](https://github.com/MobileFirstLLC/extension-cli/) or [sponsor](https://github.com/sponsors/MobileFirstLLC) this project.
+## How to use
 
+When you focus on a textarea element, the element should become yellow. In this mode, it will only autocomplete from a static list of words. If you press "Ctrl+Q", it will enable autocompletions from OpenAI and the textarea element will become green.
 
-### Available Commands
+## Upcoming features
 
-| Commands | Description |
-| --- | --- |
-| `npm run start` | build extension, watch file changes |
-| `npm run build` | generate release version |
-| `npm run docs` | generate source code docs |
-| `npm run clean` | remove temporary files |
-| `npm run test` | run unit tests |
-| `npm run sync` | update config files |
+- Support for input tags
+- A menu to configure the list of static completions
+- Fuzzy search for static completions
+- A menu to configure your OpenAI API key
 
-For CLI instructions see [User Guide &rarr;](https://oss.mobilefirst.me/extension-cli/)
+## How to develop
 
-### Learn More
-
-**Extension Developer guides**
-
-- [Getting started with extension development](https://developer.chrome.com/extensions/getstarted)
-- Manifest configuration: [version 2](https://developer.chrome.com/extensions/manifest) - [version 3](https://developer.chrome.com/docs/extensions/mv3/intro/)
-- [Permissions reference](https://developer.chrome.com/extensions/declare_permissions)
-- [Chrome API reference](https://developer.chrome.com/docs/extensions/reference/)
-
-**Extension Publishing Guides**
-
-- [Publishing for Chrome](https://developer.chrome.com/webstore/publish)
-- [Publishing for Edge](https://docs.microsoft.com/en-us/microsoft-edge/extensions-chromium/publish/publish-extension)
-- [Publishing for Opera addons](https://dev.opera.com/extensions/publishing-guidelines/)
-- [Publishing for Firefox](https://extensionworkshop.com/documentation/publish/submitting-an-add-on/)
+- Follow the steps above
+- Run `npm run start`
