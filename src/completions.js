@@ -34,7 +34,19 @@ async function getOpenCompletion (prompt) {
         'Authorization': 'Bearer ' + env.OPENAI_API_KEY
     })
     let content = response.choices[0].message.content
+    content = withoutOverlap(prompt, content)
     return content
+}
+
+function withoutOverlap(prompt, completion) {
+    for (let offset=0; offset < prompt.length; offset++) {
+        if (completion.startsWith(prompt.slice(offset))) {
+            let remainder = completion.slice(prompt.length-offset)
+            console.log('remainder', [completion, remainder])
+            return remainder
+        }
+    }
+    return completion
 }
 
 
