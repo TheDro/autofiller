@@ -37,6 +37,7 @@ function matchContent(e, overlay, contentCallback) {
     overlay.innerText = e.target.value+"\n"
     setTimeout(() => {
         overlay.scrollTop = e.target.scrollTop
+        overlay.scrollLeft = e.target.scrollLeft
         contentCallback(e)
     }, 0)
 }
@@ -68,7 +69,8 @@ function matchStyles(textArea, overlay) {
     overlay.style['white-space'] = style.getPropertyValue('white-space')
     overlay.style['word-wrap'] = style.getPropertyValue('word-wrap')
     overlay.style['display'] = style.getPropertyValue('display')
-
+    overlay.style['text-wrap'] = style.getPropertyValue('text-wrap')
+    
     overlay.style['box-sizing'] = 'border-box';
     overlay.style['border-style'] = 'solid';
     overlay.style['border-color'] = 'orange';
@@ -76,12 +78,13 @@ function matchStyles(textArea, overlay) {
     overlay.style['position'] = 'absolute';
     overlay.style['z-index'] = '1000';
     overlay.style['color'] = '#333';
-
-    // TODO: Need to get horizontal scroll working
-    // if (textArea.tagName === 'INPUT') {
-    //     overlay.style['text-wrap'] = 'nowrap'
-    //     overlay.style['overflow-x'] = 'hidden'
-    // }
+    
+    if (textArea.tagName === 'INPUT') {
+        overlay.style['white-space-collapse'] = 'preserve'
+        overlay.style['overflow-y'] = 'hidden'
+        overlay.style['overflow-x'] = 'hidden'
+        overlay.style['text-wrap'] = 'nowrap'
+    }
 
 }
 

@@ -7,7 +7,8 @@ let autofiller = {
     textareas: [],
     applyCompletion: null,
     enabled: false,
-    lastCompletion: ''
+    lastCompletion: '',
+    debugMode: false
 }
 window.autofiller = autofiller
 
@@ -21,9 +22,11 @@ autofiller.init = () => {
 
     autofiller.applyCompletion = _.debounce(applyCompletion, 500)
     autofiller.focusCallback = (e) => {
+        if (autofiller.debugMode) return
         attachOverlay(e, e.target, autofiller.overlay, autofiller.applyCompletion)
     }
     autofiller.blurCallback = (e) => {
+        if (autofiller.debugMode) return
         detachOverlay(e.target, autofiller.overlay)
     }
 
@@ -37,6 +40,9 @@ autofiller.init = () => {
             autofiller.enabled = !autofiller.enabled
             autofiller.overlay.style['background-color'] = autofiller.enabled ? 'rgba(0, 255, 0, 0.1)' : 'rgba(255, 255, 0, 0.1)'
             console.log("autofiller enabled:", autofiller.enabled)
+        }
+        if (e.ctrlKey && e.key === 'm') {
+            autofiller.debugMode = !autofiller.debugMode
         }
     })
 
