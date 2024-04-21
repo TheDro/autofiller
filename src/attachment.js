@@ -64,15 +64,24 @@ function matchStyles(textArea, overlay) {
     overlay.style['font-weight'] = style.getPropertyValue('font-weight')
     overlay.style['letter-spacing'] = style.getPropertyValue('letter-spacing')
     overlay.style['line-height'] = style.getPropertyValue('line-height')
-    
+    overlay.style['text-align'] = style.getPropertyValue('text-align')
+    overlay.style['white-space'] = style.getPropertyValue('white-space')
+    overlay.style['word-wrap'] = style.getPropertyValue('word-wrap')
+    overlay.style['display'] = style.getPropertyValue('display')
+
     overlay.style['box-sizing'] = 'border-box';
     overlay.style['border-style'] = 'solid';
     overlay.style['border-color'] = 'orange';
     overlay.style['pointer-events'] = 'none';
-    overlay.style['white-space'] = 'pre-wrap';
     overlay.style['position'] = 'absolute';
     overlay.style['z-index'] = '1000';
     overlay.style['color'] = '#333';
+
+    // TODO: Need to get horizontal scroll working
+    // if (textArea.tagName === 'INPUT') {
+    //     overlay.style['text-wrap'] = 'nowrap'
+    //     overlay.style['overflow-x'] = 'hidden'
+    // }
 
 }
 
