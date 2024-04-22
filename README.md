@@ -6,7 +6,7 @@ Adds auto-completion to the web.
 
 - Clone the project with `git clone https://github.com/TheDro/autofiller.git`
 - In the terminal, run `npm install`
-- Copy the contents of `.env.template.js` into `.env.js`
+- Copy the contents of `.env.template.js` into `src/.env.js`
 - Fill in your OpenAI API key
 - Run `npm run build`
 - In chrome, go to manage extensions.
