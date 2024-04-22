@@ -2,3 +2,5 @@ node_modules
 dist
 *env.js
 release.zip
+*dist.crx
+*dist.pem
