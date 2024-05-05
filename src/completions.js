@@ -18,12 +18,12 @@ async function getOpenCompletion (prompt) {
             },
             {
                 role: 'user',
-                content: 'Finish this sentence concisely: '
+                content: `Finish the following text with 10 words or less: <<<${prompt}>>>`
             },
-            {
-                role: 'user',
-                content: prompt
-            }
+            // {
+            //     role: 'user',
+            //     content: prompt
+            // }
         ],
         temperature: 1,
         max_tokens: max_tokens,
