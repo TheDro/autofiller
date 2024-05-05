@@ -84,7 +84,8 @@ function matchStyles(textArea, overlay) {
         overlay.style['overflow-y'] = 'hidden'
         overlay.style['overflow-x'] = 'hidden'
         overlay.style['text-wrap'] = 'nowrap'
-        overlay.style['line-height'] = style.getPropertyValue('height')
+        overlay.style['display'] = 'flex'
+        overlay.style['align-items'] = 'center'
     }
 
 }
