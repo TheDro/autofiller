@@ -25,7 +25,7 @@ async function getOpenCompletion (prompt) {
             //     content: prompt
             // }
         ],
-        temperature: 1,
+        temperature: 0.5,
         max_tokens: max_tokens,
         top_p: 1,
         frequency_penalty: 0,
